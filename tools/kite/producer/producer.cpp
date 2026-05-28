@@ -57,7 +57,7 @@ Producer::start()
 void
 Producer::stop()
 {
-  m_nextEvent.reset();
+  m_nextEvent.cancel();
   m_registeredPrefix.cancel();
 }
 
