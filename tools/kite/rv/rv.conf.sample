@@ -1,0 +1,38 @@
+;; ValidatorConfig sample for kiterv.
+;;
+;; This file controls how kiterv validates incoming KITE Request signatures.
+;; The rule below accepts any signed Interest whose signature can be verified
+;; against the trust anchor loaded from rv.cert, regardless of the producer's
+;; identity. Production deployments should replace this with a stricter rule
+;; that pins specific producer identities or enforces a hierarchical naming
+;; relation between KITE Request name and signing key.
+;;
+;; Format reference:
+;;   https://docs.named-data.net/ndn-cxx/current/manpages/ndn-validator-conf.html
+
+rule
+{
+  id "kite-request"
+  for interest
+  filter
+  {
+    type name
+    regex ^<>+
+  }
+  checker
+  {
+    type customized
+    sig-type ecdsa-sha256
+    key-locator
+    {
+      type name
+      regex ^<>+
+    }
+  }
+}
+
+trust-anchor
+{
+  type file
+  file-name "rv.cert"
+}
